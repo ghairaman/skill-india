@@ -1,0 +1,89 @@
+#section-about h2 {
+    font-size:40px;
+}
+#section-about p {
+    font-size:18px;
+}
+header.smaller li a {
+    color:#fff !important;
+}
+span.aboutspan {
+    background: linear-gradient(to bottom, rgb(148 146 250 / 90%) 0%, rgb(0 87 189) 100%);
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.aboutright {
+    position: relative;
+    width: 50%;
+    text-align: right;
+    float: right;
+}
+.aboutright img {
+    opacity: 0.05;
+}
+.abs {
+    background: linear-gradient(to bottom, rgba(125,185,232,0) 0%,rgba(81,130,172,0.9) 40%,rgba(16,47,81,1) 100%); 
+}
+.abs h4, .abs p {
+    color:#fff;
+}
+ul, li {
+            list-style: none;
+        }
+
+
+        .marquee {
+            margin: 0 auto;
+            max-width: 960px;
+            overflow: hidden;
+        }
+
+        .marquee h2 {
+            margin-bottom: 20px;
+        }
+
+        .marquee ul.flex {
+            display: flex;
+            align-items: center;
+        }
+
+        .marquee ul.flex li {
+            flex-shrink: 0;
+            width: 150px;
+            height: 150px;
+            border-radius: 5px;
+            line-height: 150px;
+            text-align: center;
+            font-size: 38px;
+            color: #fff;
+            background-image:linear-gradient(135deg,#52E5E7 15%,#130CB7 100%)
+        }
+
+        .marquee-wrapper {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .marquee-h {
+            
+            overflow: hidden;
+        }
+
+        .marquee-h .marquee-wrapper {
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .marquee-h ul li {
+    padding: 11px 20px;
+    text-align: left;
+    color: #fff;
+    font-size: 20px;
+    border-left: 5px solid #7671f5;
+    border-top: 1px solid #fff;
+    border-radius: 10px;
+    border-bottom: 1px solid #fff;
+    border-right: 1px solid #fff;
+}
