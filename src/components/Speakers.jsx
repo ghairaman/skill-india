@@ -75,7 +75,7 @@ export default function SpeakersJQMarquee() {
                     margin: "0 auto 8px",
                   }}
                 />
-                <div class="speakerdetails">
+                <div className="speakerdetails">
                   <h4 className="speakerh4" style={{ fontWeight: 600, fontSize: 14 }}>{s.name}</h4>
                   <p className="speakerp" style={{ fontSize: 12, opacity: 0.9 }}>{withBreaks(s.designation)}</p>
                 </div>
