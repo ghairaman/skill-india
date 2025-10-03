@@ -18,7 +18,7 @@ export default function MarqueeSection() {
       <div className="container relative z-4">
         <div className="row align-items-center g-5">
           <div className="col-md-6">
-            <div class="marquee marquee-h">
+            <div className="marquee marquee-h">
             <h2>Who Should Attend?</h2>
             <div className="marquee-wrapper" id="marqueeUP">
             <Marquee
