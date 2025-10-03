@@ -23,7 +23,7 @@ function App() {
       <Header />
       <Hero />
       <About />
-      <Numbers />
+      {/* <Numbers /> */}
       <WhyAttend />
       <MarqueeSection />
       <Speakers />
