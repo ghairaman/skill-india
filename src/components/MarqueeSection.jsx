@@ -7,7 +7,7 @@ export default function MarqueeSection() {
       aria-label="section"
     >
       <img
-        src="/images/lfkjslkfsfdj.png"
+        src="/images/bg-er1.jpg"
         className="jarallax-img"
         alt="Background"
       />

@@ -31,7 +31,7 @@ function App() {
       <Testimonials />
       <ContactInfo />
       <Footer />
-      <RegisterModal autoShow />
+      <RegisterModal autoShow={false} />
     </>
   )
 }

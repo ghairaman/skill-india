@@ -1,42 +1,74 @@
+// src/components/RegisterModal.jsx
 import { useEffect, useRef } from "react";
 
-export default function RegisterModal({ autoShow = true }) {
+/**
+ * Bootstrap 5 modal that can auto-open safely (no race with backdrop),
+ * and cleans up any leftover backdrops/body flags on hide/unmount.
+ *
+ * Requirements in index.html (load once):
+ * <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+ * <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+ */
+export default function RegisterModal({ autoShow = true, modalId = "myModal" }) {
   const modalRef = useRef(null);
-  const modalInstanceRef = useRef(null);
+  const instanceRef = useRef(null);
+  const shownOnceRef = useRef(false);
 
-  // Helper: remove any leftover backdrops/body flags
   const cleanupBackdrops = () => {
-    // remove all backdrops
     document.querySelectorAll(".modal-backdrop").forEach((el) => el.remove());
-    // body flags/styles Bootstrap adds
     document.body.classList.remove("modal-open");
     document.body.style.removeProperty("padding-right");
     document.body.style.removeProperty("overflow");
   };
 
   useEffect(() => {
-    const bs = window.bootstrap;
     const el = modalRef.current;
+    const bs = window.bootstrap;
     if (!el || !bs?.Modal) return;
 
-    // create or fetch the instance
-    modalInstanceRef.current = bs.Modal.getOrCreateInstance(el);
+    // Create / get instance
+    const inst = bs.Modal.getOrCreateInstance(el, {
+      backdrop: true,
+      keyboard: true,
+      focus: true,
+    });
+    instanceRef.current = inst;
 
-    // auto-show if desired
-    if (autoShow) modalInstanceRef.current.show();
+    // Safe show helper
+    const safeShow = () => {
+      // Ensure still mounted & not already visible
+      if (!document.body.contains(el) || el.classList.contains("show")) return;
+      try {
+        inst.show();
+      } catch (err) {
+        // Avoid crashing app if Bootstrap hits a timing edge
+        console.error("Bootstrap Modal show() failed:", err);
+      }
+    };
 
-    // when the modal is fully hidden, clean up any leftovers
+    // Auto-show exactly once (guards React StrictMode double-effect in dev)
+    if (autoShow && !shownOnceRef.current) {
+      shownOnceRef.current = true;
+      // Schedule microtask -> rAF so Bootstrap can prep backdrop/DOM
+      queueMicrotask(() => {
+        if (!document.body.contains(el)) return;
+        requestAnimationFrame(safeShow);
+      });
+    }
+
+    // Clean up when fully hidden
     const onHidden = () => cleanupBackdrops();
     el.addEventListener("hidden.bs.modal", onHidden);
 
-    // also clean up on unmount
+    // Teardown
     return () => {
       try {
-        modalInstanceRef.current?.hide();
-        modalInstanceRef.current?.dispose();
+        inst.hide();
+        inst.dispose();
       } catch {}
       el.removeEventListener("hidden.bs.modal", onHidden);
       cleanupBackdrops();
+      shownOnceRef.current = false; // allow re-show on future mounts
     };
   }, [autoShow]);
 
@@ -44,19 +76,17 @@ export default function RegisterModal({ autoShow = true }) {
     <div
       ref={modalRef}
       className="modal fade regmodel"
-      id="myModal"
+      id={modalId}
       tabIndex={-1}
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby={`${modalId}-label`}
       aria-hidden="true"
     >
       <div className="modal-dialog modal-lg">
         <div className="modal-content">
           {/* Header */}
           <div className="modal-header">
-            <p className="modal-title" id="exampleModalLabel">
-              <span className="h5">
-                Skill India Leadership Summit
-              </span>
+            <p className="modal-title" id={`${modalId}-label`}>
+              <span className="h5">Skill India Leadership Summit</span>
               <br />
               <span className="p text-white">
                 13<sup>th</sup> February 2026
@@ -133,7 +163,6 @@ export default function RegisterModal({ autoShow = true }) {
                       id="international_PhoneNumber_countrycode"
                       maxLength={20}
                       placeholder="Contact Number"
-                      // custom data attrs preserved; plugin can read them
                       compname="PhoneNumber"
                       phoneformat="1"
                       iscountrycodeenabled="false"
@@ -171,9 +200,7 @@ export default function RegisterModal({ autoShow = true }) {
                 <div className="row">
                   <div className="col-lg-12 pb-2">
                     <select name="Dropdown" id="interest" className="form-control" required>
-                      <option value="-Select-" defaultValue>
-                        -Select-
-                      </option>
+                      <option value="-Select-">-Select-</option>
                       <option value="- I am Interested in -">- I am Interested in -</option>
                       <option value="Sponsorship">Sponsorship</option>
                       <option value="Speakership">Speakership</option>
