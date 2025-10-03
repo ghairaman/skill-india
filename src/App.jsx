@@ -3,7 +3,6 @@ import './App.css'
 import Header from "./components/Header";
 import Hero from './components/Hero';
 import About from './components/About';
-import Numbers from './components/Numbers';
 import Testimonials from './components/Testimonials';
 import WhyAttend from './components/WhyAttend';
 import MarqueeSection from './components/MarqueeSection';
@@ -23,7 +22,6 @@ function App() {
       <Header />
       <Hero />
       <About />
-      {/* <Numbers /> */}
       <WhyAttend />
       <MarqueeSection />
       <Speakers />
